@@ -1,0 +1,1631 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Access Control API",
+    "description": "門禁系統網站 API 列表",
+    "version": "1.0.0"
+  },
+  "host": "",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "token": {
+      "type": "apiKey",
+      "in": "headers",
+      "name": "Authorization",
+      "description": "請填寫 token"
+    }
+  },
+  "paths": {
+    "/user/sign-up": {
+      "post": {
+        "tags": [
+          "管理者"
+        ],
+        "description": "管理者註冊",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "管理者註冊",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "elsa@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "abc123456"
+                },
+                "nickName": {
+                  "type": "string",
+                  "example": "elsa"
+                }
+              },
+              "required": [
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登入成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "註冊成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "註冊失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "請輸入Email | 請輸入有效的Email | 請輸入Password | 密碼至少需要 8 位數 | 這個 Email 已經被註冊過了"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [
+          "管理者"
+        ],
+        "description": "管理者登入",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "管理者登入",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "elsa@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "abc123456"
+                }
+              },
+              "required": [
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登入成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "登入成功"
+                },
+                "results": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVsc2FAZ21haWwuY29tIiwiYXV0aCI6MCwiaWF0IjoxNzE1MTAwODQxLCJleHAiOjE3MTUxODcyNDF9.iENpkK1osDQguIKY2oAmDkzuSo049qtWQlG0SwzSnTY"
+                    },
+                    "expires": {
+                      "type": "number",
+                      "example": 1615108416
+                    },
+                    "avatar": {
+                      "type": "string",
+                      "example": "https://fakeimg.pl/300/"
+                    },
+                    "auth": {
+                      "type": "number",
+                      "example": 0
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "登入失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "請輸入Email | 請輸入有效的Email | 請輸入Password | 密碼錯誤 | 這個 Email 尚未註冊"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      }
+    },
+    "/user/check-member": {
+      "post": {
+        "tags": [
+          "管理者"
+        ],
+        "description": "確認登入",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登入成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "登入成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "登入失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "身分驗證失敗，請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      }
+    },
+    "/user/forget-password": {
+      "post": {
+        "tags": [
+          "管理者"
+        ],
+        "description": "忘記密碼",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "忘記密碼",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "elsa@gmail.com"
+                }
+              },
+              "required": [
+                "email"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "新密碼已寄出，請查看您的信箱"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "重設密碼失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "請輸入Email | 無此會員"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      }
+    },
+    "/user/": {
+      "get": {
+        "tags": [
+          "管理者"
+        ],
+        "description": "取得管理者資料",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功取得管理者資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "成功取得管理者資料"
+                },
+                "results": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "example": "elsa@gmail.com"
+                    },
+                    "auth": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "nickName": {
+                      "type": "string",
+                      "example": "Elsa"
+                    },
+                    "userName": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "gender": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "teamName": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "aboutMe": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "avatar": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "createTime": {
+                      "type": "number",
+                      "example": 1715098808
+                    },
+                    "updateTime": {
+                      "type": "number",
+                      "example": 1715098808
+                    },
+                    "id": {
+                      "type": "string",
+                      "example": "663a54b8c9225d0f16b55020"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "取得管理者資料失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "無此管理者"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "管理者"
+        ],
+        "description": "修改管理者資料",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "修改管理者資料<br>*只會更新body有帶的key",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nickName": {
+                  "type": "string",
+                  "example": "Elsa"
+                },
+                "userName": {
+                  "type": "string",
+                  "example": ""
+                },
+                "gender": {
+                  "type": "number",
+                  "example": 0
+                },
+                "phone": {
+                  "type": "string",
+                  "example": ""
+                },
+                "address": {
+                  "type": "string",
+                  "example": ""
+                },
+                "teamName": {
+                  "type": "string",
+                  "example": ""
+                },
+                "aboutMe": {
+                  "type": "string",
+                  "example": ""
+                },
+                "avatar": {
+                  "type": "string",
+                  "example": ""
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "修改管理者資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "修改管理者資料成功"
+                },
+                "results": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "example": "elsa@gmail.com"
+                    },
+                    "auth": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "nickName": {
+                      "type": "string",
+                      "example": "Elsa"
+                    },
+                    "userName": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "gender": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "teamName": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "aboutMe": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "avatar": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "createTime": {
+                      "type": "number",
+                      "example": 1715098808
+                    },
+                    "updateTime": {
+                      "type": "number",
+                      "example": 1715098808
+                    },
+                    "id": {
+                      "type": "string",
+                      "example": "663a54b8c9225d0f16b55020"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "修改管理者資料失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "無此管理者 || 修改失敗"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      }
+    },
+    "/readers/": {
+      "get": {
+        "tags": [
+          "讀卡機"
+        ],
+        "description": "取得讀卡機",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登入成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "登入成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "登入失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "身分驗證失敗，請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "讀卡機"
+        ],
+        "description": "新增讀卡機",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "description": {
+                  "example": "any"
+                },
+                "schema": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登入成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "登入成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "登入失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "身分驗證失敗，請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      }
+    },
+    "/readers/{id}": {
+      "put": {
+        "tags": [
+          "讀卡機"
+        ],
+        "description": "更新讀卡機",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登入成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "登入成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "登入失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "身分驗證失敗，請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "讀卡機"
+        ],
+        "description": "刪除讀卡機",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登入成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "登入成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "登入失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "身分驗證失敗，請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      }
+    },
+    "/historys/": {
+      "get": {
+        "tags": [
+          "歷史紀錄"
+        ],
+        "description": "取得所有歷史紀錄",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登入成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "登入成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "登入失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "身分驗證失敗，請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "歷史紀錄"
+        ],
+        "description": "建立歷史紀錄",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登入成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "登入成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "登入失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "身分驗證失敗，請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      }
+    },
+    "/historys/{id}": {
+      "put": {
+        "tags": [
+          "歷史紀錄"
+        ],
+        "description": "更新歷史紀錄",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登入成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "登入成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "登入失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "身分驗證失敗，請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "歷史紀錄"
+        ],
+        "description": "刪除歷史紀錄",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登入成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "登入成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "登入失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "身分驗證失敗，請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "token": []
+          }
+        ]
+      }
+    },
+    "/Cards/": {
+      "get": {
+        "tags": [
+          "卡片清單"
+        ],
+        "description": "取得卡片清單",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "60d0fe4f5311236168a109ca"
+                      },
+                      "cardNum": {
+                        "type": "string",
+                        "example": "001"
+                      },
+                      "Name": {
+                        "type": "string",
+                        "example": "Sample Card"
+                      },
+                      "createDT": {
+                        "type": "string",
+                        "example": "2021-06-21T10:28:47.713Z"
+                      },
+                      "updateDT": {
+                        "type": "string",
+                        "example": "2021-06-21T10:28:47.713Z"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "身分驗證失敗，請重新登入",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "身分驗證失敗，請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "卡片清單"
+        ],
+        "description": "新增卡片清單",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "卡片資料",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cardNum": {
+                  "type": "string",
+                  "example": "001"
+                },
+                "Name": {
+                  "type": "string",
+                  "example": "Sample Card"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "60d0fe4f5311236168a109ca"
+                    },
+                    "cardNum": {
+                      "type": "string",
+                      "example": "001"
+                    },
+                    "Name": {
+                      "type": "string",
+                      "example": "Sample Card"
+                    },
+                    "createDT": {
+                      "type": "string",
+                      "example": "2021-06-21T10:28:47.713Z"
+                    },
+                    "updateDT": {
+                      "type": "string",
+                      "example": "2021-06-21T10:28:47.713Z"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "身分驗證失敗，請重新登入",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "身分驗證失敗，請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/Cards/{id}": {
+      "put": {
+        "tags": [
+          "卡片清單"
+        ],
+        "description": "更新卡片清單",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "卡片ID"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "卡片資料",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cardNum": {
+                  "type": "string",
+                  "example": "001"
+                },
+                "Name": {
+                  "type": "string",
+                  "example": "Updated Card"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "60d0fe4f5311236168a109ca"
+                    },
+                    "cardNum": {
+                      "type": "string",
+                      "example": "001"
+                    },
+                    "Name": {
+                      "type": "string",
+                      "example": "Updated Card"
+                    },
+                    "createDT": {
+                      "type": "string",
+                      "example": "2021-06-21T10:28:47.713Z"
+                    },
+                    "updateDT": {
+                      "type": "string",
+                      "example": "2021-06-21T10:28:47.713Z"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "身分驗證失敗，請重新登入",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "身分驗證失敗，請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "找不到卡片",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "找不到此卡片"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "卡片清單"
+        ],
+        "description": "刪除卡片",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "卡片ID"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "60d0fe4f5311236168a109ca"
+                    },
+                    "cardNum": {
+                      "type": "string",
+                      "example": "001"
+                    },
+                    "Name": {
+                      "type": "string",
+                      "example": "Deleted Card"
+                    },
+                    "createDT": {
+                      "type": "string",
+                      "example": "2021-06-21T10:28:47.713Z"
+                    },
+                    "updateDT": {
+                      "type": "string",
+                      "example": "2021-06-21T10:28:47.713Z"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "身分驗證失敗，請重新登入",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "身分驗證失敗，請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "找不到卡片",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "找不到此卡片"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CooperativeExpert": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "experience": {
+            "type": "number"
+          },
+          "serviceItem": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "picture": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
