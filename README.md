@@ -35,7 +35,7 @@ http://localhost:3000/
 ### swagger 文件
 
 ```bash
-http://localhost:3000/api-docs
+http://localhost:3000/swagger
 ```
 
 ## 環境變數說明

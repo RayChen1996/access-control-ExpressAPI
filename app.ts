@@ -19,7 +19,7 @@ import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from './swagger-output.json'
 
 const app = express()
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 // 出現預料外的錯誤
 process.on('uncaughtException', (err) => {
