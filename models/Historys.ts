@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
+
 export interface History {
   id: string
   tags: string[]
@@ -13,6 +14,7 @@ export interface History {
 const HistorysSchema: Schema = new Schema({
   id: String,
   cardNum: String,
+  reader: { type: Schema.Types.ObjectId, ref: 'Reader', required: true }, // 修改這一行
   name: { type: String, required: true },
   createDT: { type: Date, default: Date.now },
   accessDT: { type: Date, default: Date.now },

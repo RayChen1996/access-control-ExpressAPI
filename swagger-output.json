@@ -699,26 +699,32 @@
         "tags": [
           "讀卡機"
         ],
-        "description": "新增讀卡機",
+        "description": "讀卡機新增",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "Bearer token",
-            "required": true,
-            "type": "string"
-          },
           {
             "name": "body",
             "in": "body",
+            "description": "讀卡機新增",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "description": {
-                  "example": "any"
+                "name": {
+                  "type": "string",
+                  "example": "預設讀卡機"
                 },
-                "schema": {
-                  "example": "any"
+                "connection": {
+                  "type": "object",
+                  "properties": {
+                    "ip": {
+                      "type": "string",
+                      "example": "192.168.100.78"
+                    },
+                    "port": {
+                      "type": "number",
+                      "example": 4444
+                    }
+                  }
                 }
               }
             }
@@ -726,7 +732,7 @@
         ],
         "responses": {
           "200": {
-            "description": "登入成功",
+            "description": "讀卡機新增成功",
             "schema": {
               "type": "object",
               "properties": {
@@ -736,7 +742,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "登入成功"
+                  "example": "讀卡機新增成功"
                 }
               },
               "xml": {
@@ -747,8 +753,8 @@
           "201": {
             "description": "Created"
           },
-          "401": {
-            "description": "登入失敗",
+          "400": {
+            "description": "讀卡機新增失敗",
             "schema": {
               "type": "object",
               "properties": {
@@ -758,7 +764,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "身分驗證失敗，請重新登入"
+                  "example": "讀卡機新增"
                 }
               },
               "xml": {
@@ -979,29 +985,95 @@
         "tags": [
           "歷史紀錄"
         ],
-        "description": "建立歷史紀錄",
+        "description": "新增歷史紀錄",
         "parameters": [
           {
-            "name": "authorization",
+            "name": "Authorization",
             "in": "header",
             "description": "Bearer token",
             "required": true,
             "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "登入成功",
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "歷史紀錄",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "status": {
+                "cardNum": {
+                  "type": "string",
+                  "example": "0000666666"
+                },
+                "reader": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "connection": {
+                      "type": "object",
+                      "properties": {
+                        "ip": {
+                          "type": "string",
+                          "example": "192.168.10.89"
+                        },
+                        "port": {
+                          "type": "number",
+                          "example": 4444
+                        }
+                      }
+                    }
+                  }
+                },
+                "name": {
+                  "type": "string",
+                  "example": "TEST"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
                   "type": "string",
                   "example": "success"
                 },
-                "message": {
-                  "type": "string",
-                  "example": "登入成功"
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "60d0fe4f5311236168a109ca"
+                    },
+                    "cardNum": {
+                      "type": "string",
+                      "example": "001"
+                    },
+                    "Name": {
+                      "type": "string",
+                      "example": "Sample Card"
+                    },
+                    "createDT": {
+                      "type": "string",
+                      "example": "2021-06-21T10:28:47.713Z"
+                    },
+                    "updateDT": {
+                      "type": "string",
+                      "example": "2021-06-21T10:28:47.713Z"
+                    }
+                  }
                 }
               },
               "xml": {
@@ -1009,15 +1081,12 @@
               }
             }
           },
-          "201": {
-            "description": "Created"
-          },
           "401": {
-            "description": "登入失敗",
+            "description": "身分驗證失敗，請重新登入",
             "schema": {
               "type": "object",
               "properties": {
-                "status": {
+                "code": {
                   "type": "string",
                   "example": "error"
                 },
@@ -1030,11 +1099,17 @@
                 "name": "main"
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "security": [
           {
-            "token": []
+            "Bearer": []
           }
         ]
       }
